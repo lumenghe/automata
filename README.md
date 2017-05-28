@@ -1,2 +1,2 @@
 # automata
-# automta compression test
+# automata compression algorithm test: building minimal automata from dictionary
