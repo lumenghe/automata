@@ -1,2 +1,2 @@
 # automata
-# compression test
+# automta compression test
