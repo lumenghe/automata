@@ -16,3 +16,4 @@ class State(object):
     states are recored in a dictionary. Parents (states with transition
     to the current state are recorded as well for the compression algorithm)
     """
+    count = 0 # to give a single id to each state
