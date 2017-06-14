@@ -37,3 +37,6 @@ class State(object):
                 new_state = State(parents=[(letter,self)])
                 self.transitions[letter] = new_state
         return self.transitions.get(letter, None)
+
+    def __hash__(self):
+        return self.number
