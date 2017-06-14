@@ -25,3 +25,15 @@ class State(object):
         self.number = State.count # unique id for the node
         State.count += 1
         self.transitions = {}
+
+    def next_state(self, letter, add_transition=False):
+        """
+        Transition to the next state when reading a letter. If the transition
+        does not exist and add_transition=True, the transition is added to the
+        automaton.
+        """
+        if add_transition:
+            if not letter in self.transitions:
+                new_state = State(parents=[(letter,self)])
+                self.transitions[letter] = new_state
+        return self.transitions.get(letter, None)
