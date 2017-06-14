@@ -17,3 +17,11 @@ class State(object):
     to the current state are recorded as well for the compression algorithm)
     """
     count = 0 # to give a single id to each state
+    def __init__(self, parents=[]):
+        self.is_final = False
+        self.parents = defaultdict(list)
+        for l,p in parents:
+            self.parents[p].append(l)
+        self.number = State.count # unique id for the node
+        State.count += 1
+        self.transitions = {}
