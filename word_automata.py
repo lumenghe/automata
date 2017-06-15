@@ -40,3 +40,9 @@ class State(object):
 
     def __hash__(self):
         return self.number
+
+    def __repr__(self):
+        r = "S_{}".format(self.number)
+        if self.is_final:
+            r += "_F" # suffix for final states
+        return r
