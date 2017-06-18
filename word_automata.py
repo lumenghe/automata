@@ -46,3 +46,9 @@ class State(object):
         if self.is_final:
             r += "_F" # suffix for final states
         return r
+
+class Automaton(object):
+    """
+    Class of automata. An automaton is initialized empty, transitions are added
+    using add_word method.
+    """
