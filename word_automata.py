@@ -52,3 +52,7 @@ class Automaton(object):
     Class of automata. An automaton is initialized empty, transitions are added
     using add_word method.
     """
+    def __init__(self):
+        self.initial_state = State()
+        self.compressed = False # once an automaton is compressed, we cannot add new words
+        self.mode = "history"
