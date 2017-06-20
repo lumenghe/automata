@@ -56,3 +56,31 @@ class Automaton(object):
         self.initial_state = State()
         self.compressed = False # once an automaton is compressed, we cannot add new words
         self.mode = "history"
+
+    def __iter__(self):
+        """
+        generator listing all the states in the automaton
+        mark: memorize states already encountered, only list new states (useful when
+            the automaton is compressed
+        history: list both states and the word leading to each state
+        """
+        if self.mode == 'mark':
+            marked = set()
+            stack = [self.initial_state]
+        elif self.mode == 'history':
+            stack = [("", self.initial_state)]
+        else:
+            raise ValueError("unknown mode '{}'".format(self.mode))
+
+        while stack:
+            if self.mode == 'mark':
+                state = stack.pop()
+                if state not in marked:
+                    marked.add(state)
+                    stack += state.transitions.values()
+                    yield state
+            else: # history mode
+                history, state = stack.pop()
+                for l,s in state.transitions.items():
+                    stack.append((history+l, s))
+                yield history, state
