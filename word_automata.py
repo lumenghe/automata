@@ -84,3 +84,14 @@ class Automaton(object):
                 for l,s in state.transitions.items():
                     stack.append((history+l, s))
                 yield history, state
+
+    def add_word(self, word, count=False):
+        """
+        Add transition in the automaton to recognize a new word
+        """
+        if self.compressed:
+            raise RuntimeError("Automaton is compressed. Cannot add new words (recognized language might become different)!")
+        current_state = self.initial_state
+        for letter in word:
+            current_state = current_state.next_state(letter, add_transition=True)
+        current_state.is_final = True
