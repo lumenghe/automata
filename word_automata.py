@@ -95,3 +95,14 @@ class Automaton(object):
         for letter in word:
             current_state = current_state.next_state(letter, add_transition=True)
         current_state.is_final = True
+
+    def accept_word(self, word):
+        """
+        Check if a word is accepted or not by the automaton
+        """
+        current_state = self.initial_state
+        for letter in word:
+            current_state = current_state.next_state(letter)
+            if current_state == None:
+                return False
+        return current_state.is_final
