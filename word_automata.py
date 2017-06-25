@@ -106,3 +106,12 @@ class Automaton(object):
             if current_state == None:
                 return False
         return current_state.is_final
+
+    def print_words(self):
+        """
+        Print all the words recognized by the automaton
+        """
+        self.mode = "history"
+        for h,s in self:
+            if s.is_final:
+                print(h)
