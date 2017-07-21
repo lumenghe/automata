@@ -115,3 +115,14 @@ class Automaton(object):
         for h,s in self:
             if s.is_final:
                 print(h)
+
+    def get_leaves(self):
+        """
+        Get the list of leaf states (without outgoing transition)
+        """
+        self.mode = "mark"
+        leaves = []
+        for s in self:
+            if not len(s.transitions):
+                leaves.append(s)
+        return leaves
