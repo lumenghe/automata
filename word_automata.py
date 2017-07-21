@@ -126,3 +126,14 @@ class Automaton(object):
             if not len(s.transitions):
                 leaves.append(s)
         return leaves
+
+    def count_words(self):
+        """
+        Count the number of words recognized by the automaton
+        """
+        self.mode = "history"
+        count = 0
+        for _, s in self:
+            if s.is_final:
+                count += 1
+        return count
