@@ -137,3 +137,13 @@ class Automaton(object):
             if s.is_final:
                 count += 1
         return count
+
+    def count_states(self):
+        """
+        Count the number of states in the automaton
+        """
+        self.mode = "mark"
+        count = 0
+        for s in self:
+            count += 1
+        return count
