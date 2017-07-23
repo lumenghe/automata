@@ -158,3 +158,13 @@ class Automaton(object):
             s.number = count
             count += 1
         State.count = count
+
+    def __str__(self):
+        self.mode = "mark"
+        r = ""
+        for s in self:
+            r += str(s)
+            for l,t in s.transitions.items():
+                r += " " + l + ":" + str(t)
+            r += "\n"
+        return r.strip()
