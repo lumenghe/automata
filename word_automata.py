@@ -147,3 +147,14 @@ class Automaton(object):
         for s in self:
             count += 1
         return count
+
+    def renumber_states(self):
+        """
+        Change state ids to be consecutive
+        """
+        self.mode = "mark"
+        count = 0
+        for s in self:
+            s.number = count
+            count += 1
+        State.count = count
