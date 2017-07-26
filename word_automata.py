@@ -168,3 +168,26 @@ class Automaton(object):
                 r += " " + l + ":" + str(t)
             r += "\n"
         return r.strip()
+
+    def merge_states(self, states):
+        """
+        Merge a list of states in the automaton
+        """
+        if not len(states):
+            raise ValueError("Cannot merge empty list of states!")
+        if any(s.is_final != states[0].is_final for s in states):
+            raise ValueError("Cannot merge final and non-final states!")
+        new_state = State()
+        new_state.is_final = states[0].is_final
+        for s in states:
+            for letter,child in s.transitions.items():
+                c = new_state.transitions.get(letter, child)
+                if c != child:
+                    raise RuntimeError("Critical error when merging states (states should not be merged)!")
+                new_state.transitions[letter] = child
+            for p,letters in s.parents.items():
+                for l in letters:
+                    p.transitions[l] = new_state
+            new_state.parents.update(s.parents)
+            del s
+        return new_state
