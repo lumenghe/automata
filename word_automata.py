@@ -191,3 +191,43 @@ class Automaton(object):
             new_state.parents.update(s.parents)
             del s
         return new_state
+
+    def compress(self, verbose=False):
+        """
+        Compression algorithm for the automaton: this is a BFS algorithm merging states
+        of the automaton when they represent the same language part
+        """
+        leaves = self.get_leaves()
+        if verbose:
+            total = self.count_states()
+            processed = len(leaves)
+            last = -10
+            print("COMPRESSING... 0 %")
+        queue = deque([self.merge_states(leaves)]) # make a single leaf state
+        marked = set()
+        while queue:
+            if verbose:
+                ratio = 100 * processed / float(total)
+                if ratio - 10 > last:
+                    last = ratio
+                    print("COMPRESSING...{} %".format(round(ratio, 0)))
+            state = queue.pop()
+            marked.add(state)
+            signatures = defaultdict(list) # final state? + transitions to other states / same signatures will be merged
+            for p,letters in state.parents.items():
+                if any(x not in marked for x in p.transitions.values()):
+                    continue
+                sig = (p.is_final, tuple((x[0],x[1]) for x in p.transitions.items()))
+                signatures[sig].append(p)
+            for sig, states in signatures.items():
+                if verbose:
+                    processed += len(states)
+                if len(states) > 1:
+                    new_state = self.merge_states(states)
+                else:
+                    new_state = states[0]
+                queue.appendleft(new_state)
+        if verbose:
+            print("COMPRESSING... 100 %")
+        self.compressed = True
+
