@@ -231,3 +231,33 @@ class Automaton(object):
             print("COMPRESSING... 100 %")
         self.compressed = True
 
+
+if __name__=='__main__':
+    parser = argparse.ArgumentParser(description="Automata compression test")
+    parser.add_argument("-i", "--input", help="list of words", type=str, required=True)
+    parser.add_argument("-v", "--verbose", help="verbose", action="store_true", default=False)
+    parser.add_argument("-o", "--output", help="text representation of the automaton", type=str, required=False)
+    args = parser.parse_args()
+    # Create prefix automaton from a lexicon
+    word_automaton = Automaton()
+    word_list_file = open(args.input, "r")
+    count_letter = 0
+    for line in word_list_file:
+        word_automaton.add_word(line.strip(), count=True)
+        count_letter += len(line.strip())
+    print( "Leaves: {}".format(len(word_automaton.get_leaves())) )
+    print( "Words: {}".format(word_automaton.count_words()))
+    nb_before = word_automaton.count_states()
+    print( "States: {}".format(nb_before) )
+    # Compress automaton
+    word_automaton.compress(verbose=args.verbose)
+    print( "Leaves: {}".format(len(word_automaton.get_leaves())) )
+    print( "Words: {}".format(word_automaton.count_words()) )
+    nb_after = word_automaton.count_states()
+    print( "States: {}".format(nb_after) )
+    word_automaton.renumber_states()
+    print( "Compression ratio = {} %".format(round(nb_after / float(nb_before) * 100, 2)) )
+    if args.output:
+        f = open(args.output, "w")
+        f.write(str(word_automaton))
+        f.close()
