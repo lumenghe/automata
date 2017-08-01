@@ -1,5 +1,5 @@
 """
-Finite State Automata experiment of words. A prefix automaton is built
+Finite State Automata experiment on words. A prefix automaton is built
 from a list of words. I implemented a compression algorithm to minimize
 the size of the automaton by merging suffixes.
 
