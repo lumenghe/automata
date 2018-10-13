@@ -12,7 +12,7 @@ from collections import defaultdict, deque
 
 class State(object):
     """
-    Class for representing a automata state. Transitions to other
+    Class for representing an automata state. Transitions to other
     states are recored in a dictionary. Parents (states with transition
     to the current state are recorded as well for the compression algorithm)
     """
